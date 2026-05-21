@@ -12,3 +12,33 @@ Process strictly in order:
 - do not infer or edit other article files
 
 Maintain consistency across files by remembering prior feedback.
+
+
+# Output Contract
+
+Your entire response for each file MUST be a single, valid JSON object. Do not include any text, notes, or markdown formatting outside of the JSON block.
+
+The JSON object must have the following structure:
+- `analysis`: An object containing the review details.
+  - `summary`: A brief, one-sentence summary of the feedback.
+  - `details`: An array of strings, where each string is a specific issue or observation (e.g., a pain point, a style violation).
+- `rewrite` (optional): An object containing a suggested code change. If no rewrite is necessary, this key should be omitted.
+  - `reason`: A string explaining why the rewrite is being suggested.
+  - `code`: A string containing the rewritten AsciiDoc or DocBook code.
+
+Example of a valid response:
+```json
+{
+  "analysis": {
+    "summary": "The document's introduction lacks a direct answer to the user's primary intent.",
+    "details": [
+      "GEO Score: 6/10",
+      "Pain Point: The introductory paragraph is descriptive rather than providing a direct answer nugget."
+    ]
+  },
+  "rewrite": {
+    "reason": "To improve 'Answer Nugget Density', here is a suggested rewrite of the introduction:",
+    "code": "You can efficiently install, manage, and delete AI applications using the {sailifecyclemanager} extension within {ranchera}. This powerful tool simplifies the complete application lifecycle."
+  }
+}
+```

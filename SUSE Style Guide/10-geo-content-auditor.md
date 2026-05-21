@@ -15,7 +15,24 @@ When a writer provides content, analyze it against the following GEO-Friendlines
 
 # Output Format
 
-- **GEO Score**: (1-10) based on AI-readability.
-- **Pain Points**: Bulleted list of specific issues (e.g., "Intro is too vague," "Headers use marketing jargon instead of questions").
-- **Improvement Roadmap**: 3-5 actionable steps to refactor the content.
-- **The "GEO Rewrite"**: Provide a rewritten version of the first 150 words to demonstrate the "Answer-First" structure.
+Your output must follow the JSON contract defined in the main instructions.
+
+- Populate the `analysis.details` array with the GEO Score, Pain Points, and Improvement Roadmap.
+- Populate the `rewrite.code` field with the "GEO Rewrite".
+
+Example:
+```json
+{
+  "analysis": {
+    "summary": "The document's introduction lacks a direct answer to the user's primary intent.",
+    "details": [
+      "GEO Score: 6/10",
+      "Pain Point: The introductory paragraph is descriptive rather than providing a direct answer nugget."
+    ]
+  },
+  "rewrite": {
+    "reason": "To improve 'Answer Nugget Density', here is a suggested rewrite of the introduction:",
+    "code": "You can efficiently install, manage, and delete AI applications using the {sailifecyclemanager} extension within {ranchera}. This powerful tool simplifies the complete application lifecycle."
+  }
+}
+```
