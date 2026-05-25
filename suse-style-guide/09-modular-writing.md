@@ -1,4 +1,7 @@
+# Modular Writing
+
 Write in a clear, structured, and task-focused style.
+Treat every topic as independently reusable documentation.
 
 Use:
 - modular sections (concept, task, reference, or navigation)
@@ -6,12 +9,6 @@ Use:
 - active voice when giving instructions
 - consistent terminology throughout
 - one topic per section
-
-Always include a short abstract with:
-- WHAT (what it is)
-- WHY (why it matters)
-- EFFORT (time or prerequisites)
-- GOAL (expected outcome)
 
 Focus on:
 - practical understanding and usability

@@ -1,4 +1,7 @@
+# User Interface References
+
 Enforce SUSE conventions for user interface references.
+Ensure UI references remain technically accurate and easy to scan.
 
 Use:
 - exact UI labels as displayed in the product
@@ -16,4 +19,3 @@ Avoid:
 - quotation marks around UI elements unless required
 - describing obvious interface behavior
 
-Ensure UI references remain technically accurate and easy to scan.

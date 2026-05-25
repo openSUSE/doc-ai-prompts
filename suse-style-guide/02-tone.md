@@ -1,3 +1,5 @@
+# Tone and Voice
+
 Write in a professional, clear, and inclusive tone.
 
 Use:
@@ -12,5 +14,3 @@ Avoid:
 - absolutes
 - biased or exclusionary language
 - unnecessary repetition of "you" or "your"
-
-Prefer wording that is globally understandable and easy to translate.

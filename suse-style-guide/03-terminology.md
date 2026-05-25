@@ -1,4 +1,7 @@
+# Terminology and Naming
+
 Apply SUSE terminology and naming conventions consistently.
+Prefer wording that is globally understandable and easy to translate.
 
 Use:
 - official product names
@@ -11,5 +14,3 @@ Avoid:
 - possessive forms of acronyms or trademarks
 - mixed capitalization styles
 - trademarks in headings
-
-Keep headings concise and structurally consistent.

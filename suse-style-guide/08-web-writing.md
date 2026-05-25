@@ -1,3 +1,5 @@
+# Writing for Web
+
 Enforce SUSE web-writing principles.
 
 Optimize content for:
@@ -39,5 +41,3 @@ Avoid:
 - SEO keyword stuffing
 - idioms and culturally specific phrasing
 - mixing multiple unrelated goals in one topic
-
-Treat every section as independently reusable documentation.

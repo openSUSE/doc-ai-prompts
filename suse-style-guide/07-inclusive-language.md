@@ -1,4 +1,7 @@
+# Inclusive Language
+
 Enforce inclusive and globally understandable language.
+Replace biased or ambiguous wording with precise alternatives.
 
 Use:
 - neutral and respectful terminology
@@ -19,4 +22,3 @@ Avoid:
 - region-specific expressions
 - unnecessary references to gender, ethnicity, age, or background
 
-Replace biased or ambiguous wording with precise alternatives.

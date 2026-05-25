@@ -1,4 +1,8 @@
+# Headings and Titles
+
 Enforce SUSE heading conventions.
+Keep headings concise and structurally consistent.
+Ensure headings accurately summarize the following content.
 
 Use:
 - sentence-style capitalization
@@ -18,4 +22,3 @@ Avoid:
 - stacked headings without body text
 - headings containing trademarks unless required
 
-Ensure headings accurately summarize the following content.
