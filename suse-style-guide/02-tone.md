@@ -14,3 +14,10 @@ Avoid:
 - absolutes
 - biased or exclusionary language
 - unnecessary repetition of "you" or "your"
+- unnecessary filler words and business jargon
+
+# Example
+Avoid: leverage/utilize
+Use: use
+Avoid: facilitate
+Use: help/enable

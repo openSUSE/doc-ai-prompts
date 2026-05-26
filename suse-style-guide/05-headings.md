@@ -5,20 +5,17 @@ Keep headings concise and structurally consistent.
 Ensure headings accurately summarize the following content.
 
 Use:
-- sentence-style capitalization
-- concise and descriptive headings
+- sentence-style capitalization for mostly all headings, but use title-style 
+capitalization for overall document/book titles
+- prompt-style, natural-language questions for H2/H3 headings to mirror user prompts (GEO optimization)
 - parallel grammatical structure among sibling headings
 - consistent hierarchy depth
 
 Prefer:
-- action-oriented headings
+- action-oriented headings (e.g. gerund verbs like "Installing" for task sections)
 - noun phrases for reference sections
-- predictable heading patterns
 
-Avoid:
-- trailing punctuation
-- unnecessary articles
-- overly long headings
-- stacked headings without body text
-- headings containing trademarks unless required
+# Example
+Use: "How to manage storage" or "Installing software"
+Avoid: "Usage" or "Software Installation"
 

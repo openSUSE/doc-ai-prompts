@@ -1,17 +1,10 @@
 # Inclusive Language
 
-Enforce inclusive and globally understandable language.
 Replace biased or ambiguous wording with precise alternatives.
 
 Use:
-- neutral and respectful terminology
-- direct and accessible wording
+- gender-neutral and respectful terminology
 - culturally independent expressions
-
-Prefer:
-- gender-neutral language
-- simple vocabulary
-- explicit references instead of idioms
 
 Avoid:
 - slang
@@ -20,5 +13,10 @@ Avoid:
 - ableist language
 - exclusionary assumptions
 - region-specific expressions
-- unnecessary references to gender, ethnicity, age, or background
+
+# Example
+Use: "primary/secondary"
+Avoid: "master/slave"
+Use: "they"
+Avoid: "he", "she"
 
