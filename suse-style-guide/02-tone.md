@@ -17,7 +17,7 @@ Avoid:
 - unnecessary filler words and business jargon
 
 # Example
-Avoid: leverage/utilize
+Avoid: leverage, utilize
 Use: use
 Avoid: facilitate
-Use: help/enable
+Use: help, enable

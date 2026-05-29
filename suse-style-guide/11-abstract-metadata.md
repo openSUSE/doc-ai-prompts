@@ -16,7 +16,7 @@ Meta description: Write a single, complete sentence between 120 and 155 characte
 Social description: Keep the length under 55 characters.
 
 Avoid: 
-Subjective or conversational phrasing (e.g., do not write “It is easy” or “In this article, we will...”). Do not include quotation marks, explanatory text or labels like “Description: in the meta description output. Do not use abbreviations without defining them in parentheses first.
+Subjective or conversational phrasing (e.g., do not write “It is easy” or “In this article, we will...”). Do not include quotation marks, explanatory text or labels like “Description:” in the meta description output. Do not use abbreviations without defining them in parentheses first.
 
 # Example output
 Abstract: The Apache HTTP Server is an open source cross-platform Web server software. Configuring a reverse proxy improves security by hiding the identity of your back-end servers. It takes 15 minutes of reading time and a basic knowledge of Linux networking. By the end of this guide, you will have a secure proxy server running on your local machine.

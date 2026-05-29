@@ -5,7 +5,7 @@ Keep headings concise and structurally consistent.
 Ensure headings accurately summarize the following content.
 
 Use:
-- sentence-style capitalization for mostly all headings, but use title-style 
+- sentence-style capitalization for most headings, but use title-style 
 capitalization for overall document/book titles
 - prompt-style, natural-language questions for H2/H3 headings to mirror user prompts (GEO optimization)
 - parallel grammatical structure among sibling headings

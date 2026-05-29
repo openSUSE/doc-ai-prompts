@@ -13,7 +13,7 @@ Avoid:
 - inconsistent measurement notation
 
 # Example
-Use: "Open the /etc/hosts/ directory". 
-Avoid: "Open the /etc/hosts directory". 
+Use: "Open the /etc/daps/ directory". 
+Avoid: "Open the /etc/daps directory". 
 Use: "16 GB"
 Avoid: "16GB"
