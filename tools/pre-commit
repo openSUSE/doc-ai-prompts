@@ -1,0 +1,73 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+PROMPT_DIR="ai-prompts/suse-style-guide"
+INSTRUCTIONS_DIR=".github/instructions"
+#COPILOT_FILE=".github/copilot-instructions.md"
+
+# --------------------------------------
+# Verify prompt directory exists
+# --------------------------------------
+if [ ! -d "$PROMPT_DIR" ]; then
+  echo "ERROR: Prompt directory not found: $PROMPT_DIR"
+  echo "Did you initialize submodules?"
+  echo
+  echo "Run:"
+  echo "  git submodule update --init --recursive"
+  exit 1
+fi
+
+# --------------------------------------
+# Generate modular instruction files
+# --------------------------------------
+mkdir -p "$INSTRUCTIONS_DIR"
+
+find "$INSTRUCTIONS_DIR" -name '*.instructions.md' -delete || true
+
+for f in "$PROMPT_DIR"/*.md; do
+  base=$(basename "$f" .md)
+
+  cat > "$INSTRUCTIONS_DIR/${base}.instructions.md" <<EOF
+---
+applyTo: "**/*.adoc"
+---
+
+$(cat "$f")
+EOF
+
+done
+
+# --------------------------------------
+# Generate aggregated copilot instructions
+# --------------------------------------
+# {
+#   echo "# Repository Instructions for GitHub Copilot"
+#   echo
+#   echo "This file is auto-generated."
+#   echo "Do not edit manually."
+#   echo
+
+#   for f in $(find "$PROMPT_DIR" -name '*.md' | sort); do
+#     echo
+#     echo "## $(basename "$f")"
+#     echo
+#     cat "$f"
+#     echo
+#   done
+
+# } > "$COPILOT_FILE"
+
+# --------------------------------------
+# Stage generated files automatically
+# --------------------------------------
+git add "$INSTRUCTIONS_DIR"
+#git add "$COPILOT_FILE"
+
+# --------------------------------------
+# Validate generated files are committed
+# --------------------------------------
+if ! git diff --cached --quiet; then
+  echo
+  echo "Generated Copilot instruction files updated and staged."
+fi
