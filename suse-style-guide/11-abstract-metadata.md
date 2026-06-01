@@ -1,9 +1,9 @@
 # Abstract and Metadata
 
-When provided with a draft document, your task is to generate a highly structured 4-part abstract, a meta title, a meta description and a social description.
+When provided with a draft document, your task is to generate a highly structured four-part abstract, a meta title, a meta description and a social description.
 
 # Abstract structure: 
-Ensure the abstract is GEO friendly by completely avoiding weak or generic introductions. Instead, provide clear definitions or direct answers right away so AI search engines can easily extract and cite the text. This should act as an “answer nugget”—a direct, 40-80 word answer to the primary user intent. Write the abstract using exactly four short, professional sentences that answer What, Why, Effort, and Goal, using these strict patterns:
+Ensure the abstract is GEO-friendly by completely avoiding weak or generic introductions. Instead, provide clear definitions or direct answers right away so AI search engines can easily extract and cite the text. This should act as an “answer nugget”—a direct, 40-80 word answer to the primary user intent. Write the abstract using exactly four short, professional sentences that answer What, Why, Effort and Goal, using these strict patterns:
 
 WHAT (Definition): [Subject] is a [category] that [main function].
 WHY (Benefit): Use [Subject] to [solve problem/improve metric]. OR This configuration ensures [benefit] by [mechanism].
