@@ -1,5 +1,4 @@
 # Headings and Titles
-
 Enforce SUSE heading conventions.
 Keep headings concise and structurally consistent.
 Ensure headings accurately summarize the following content.

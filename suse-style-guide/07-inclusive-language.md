@@ -1,5 +1,4 @@
 # Inclusive Language
-
 Replace biased or ambiguous wording with precise alternatives.
 
 Use:
