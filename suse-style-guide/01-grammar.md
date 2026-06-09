@@ -1,5 +1,4 @@
 # Grammar and Punctuation
-
 Enforce SUSE grammar and punctuation conventions.
 
 Use:

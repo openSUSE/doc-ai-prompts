@@ -1,5 +1,4 @@
 # Technical Formatting
-
 Format technical references consistently.
 
 Use:

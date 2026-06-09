@@ -1,6 +1,5 @@
 # Tone and Voice
-
-Write in a professional, clear, and inclusive tone.
+Write in a professional, clear and inclusive tone.
 
 Use:
 - second person ("you") where appropriate
