@@ -17,8 +17,8 @@ Avoid:
 - ID prefixes for sections, chapters, or parts (to protect SEO)
 
 # Example
-Use: "Open the /etc/daps/ directory". 
-Avoid: "Open the /etc/daps directory". 
+Use: "Open the /etc/daps/ directory." 
+Avoid: "Open the /etc/daps directory." 
 Use: "16 GB"
 Avoid: "16GB"
 Use: `xml:id="pro-add-user"` (for DocBook procedure)
