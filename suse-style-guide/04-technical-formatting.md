@@ -14,7 +14,7 @@ Avoid:
 - punctuation inside UI labels
 - inconsistent measurement notation
 - underscores (_) or periods (.) in identifiers
-- ID prefixes for sections, chapters, or parts (to protect SEO)
+- ID prefixes for sections, chapters or parts (to protect SEO)
 
 # Example
 Use:
