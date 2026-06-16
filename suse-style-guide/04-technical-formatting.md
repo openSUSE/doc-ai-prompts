@@ -21,7 +21,8 @@ Use: "Open the /etc/daps/ directory". 
 Avoid: "Open the /etc/daps directory". 
 Use: "16 GB"
 Avoid: "16GB"
-Use: xml:id="pro-add-user" (for procedure)
-Use: xml:id="manage-storage" (for section). 
+Use: xml:id="pro-add-user" (for DocBook procedure)
+Use: [#pro-add-user] (for AsciiDoc procedure)
+Use: [#manage-storage] (for AsciiDoc section). 
 Avoid: xml:id="pro_add_user" 
 Avoid: xml:id="sec-manage-storage"
