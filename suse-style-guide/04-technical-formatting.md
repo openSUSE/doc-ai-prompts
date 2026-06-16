@@ -5,7 +5,7 @@ Use:
 - precise file and directory names
 - standardized units and measurements
 - accurate UI labels matching the interface text
-- short, English xml:ids generated from titles for elements lacking IDs 
+- short, IDs for elements (sections, figures, procedures...) lacking IDs, generated from titles of these elements. For DocBook, IDs are part of  the element's `xml:id=""` attribute. For AsciiDoc, IDs stand before the title, for example `[#this-is-my-id]`
 (using only lowercase letters, numbers and hyphens)
 - standard ID prefixes (fig- for figures, pro- for procedures, tab- for tables, ex- for examples)
 
