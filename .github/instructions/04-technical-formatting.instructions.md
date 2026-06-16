@@ -21,12 +21,15 @@ Avoid:
 - ID prefixes for sections, chapters, or parts (to protect SEO)
 
 # Example
-Use: "Open the /etc/daps/ directory." 
-Avoid: "Open the /etc/daps directory." 
-Use: "16 GB"
-Avoid: "16GB"
-Use: `xml:id="pro-add-user"` (for DocBook procedure)
-Use: `[#pro-add-user]` (for AsciiDoc procedure)
-Use: `[#manage-storage]` (for AsciiDoc section)
-Avoid: `xml:id="pro_add_user"`
-Avoid: `xml:id="sec-manage-storage"`
+Use:
+- "Open the /etc/daps/ directory." 
+- "16 GB"
+- `xml:id="pro-add-user"` (for DocBook procedure)
+- `[#pro-add-user]` (for AsciiDoc procedure)
+- `[#manage-storage]` (for AsciiDoc section)
+
+Avoid:
+- "Open the /etc/daps directory." 
+- "16GB"
+- `xml:id="pro_add_user"`
+- `xml:id="sec-manage-storage"`
