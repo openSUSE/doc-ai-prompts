@@ -3,8 +3,7 @@ applyTo: "**/*.adoc"
 ---
 
 # Add revision history
-When making significant changes to a document (such as adding or deleting features, updating images, fixing broken links or modifying metadata), you must check whether
-the document's revision history is updated with a brief description and the current date.
+When making significant changes to a document (such as adding or deleting features, updating images, fixing broken links or modifying metadata), you must check whether the document's revision history is updated with a brief description and the current date.
 If the revision history is not updated, you must update it.
 Do not update the revision history for minor typo fixes, grammar corrections or formatting changes.
 
