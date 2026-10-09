@@ -24,7 +24,7 @@ To use the Style Guide prompts manually, just copy the content of the selected f
 ## Usage: Github Copilot
 You can influence the GitHub Copilot to make PR reviews based on the Style Guide AI prompts.
 Copilot expects the prompts in the `.github/instructions/` directory as files ending with `*.instructions.md`.
-You dont have to copy and rename the prompt files manually - this can be automatized using a pre-commit hook.
-To use it, copy the file `tools/pre-commit` to `.git/hooks/pre-commit` and on next commit, the Copioot instructions files will be created automatically.
+You don't have to copy and rename the prompt files manually - this can be automatized using a pre-commit hook.
+To use it, copy the file `tools/pre-commit` to `.git/hooks/pre-commit` and on next commit, the Copiolot instructions files will be created automatically.
 
 Then on a GitHub PR page, as the Copilot for review and it will go through the PR changes and comment on their suspect parts.
