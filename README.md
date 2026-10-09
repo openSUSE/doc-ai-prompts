@@ -1,58 +1,45 @@
 # About
-This repository contains AI prompts used by the SUSE documentation team.
+This repository contains AI prompts and agent instructions used by the SUSE documentation team.
 
 # Installation
-We recommend cloning the content of this repository as a Git submodule into the root of the repository that holds your documentation files:
-
-`> git submodule add https://github.com/openSUSE/doc-ai-prompts.git ai-prompts/`
-
-**TIP**: to stop reporting changes made within the submodule in the parent repo, run this configuration update:
-
-`> git config submodule.ai-prompts.ignore all`
+For setup and integration instructions into your documentation repository, see [INSTALL.md](INSTALL.md).
 
 # Style Guide
 The official SUSE Style Guide is located at https://documentation.suse.com/style/current/
 
-The `Style-Guide-onefile.md` file contains a minimal version of the SUSE Style Guide presented as an AI prompts.
+The `.agents/suse-style-guide/Style-Guide-onefile.md` file contains a minimal version of the SUSE Style Guide presented as AI prompts.
 
-Files in the `suse-style-guide` directory contain a simplified version of the SUSE Style Guide divided into multiple topics presented as AI promtps.
+Files in the `.agents/suse-style-guide/` directory contain a simplified version of the SUSE Style Guide divided into multiple topics presented as AI prompts.
 They are prefixed with a number that suggests the recommended order of processing.
 
-## Usage: Manual
-To use the Style Guide prompts manually, just copy the content of the selected file into an AI coding assistant or other AI-enabled tool.
+# Usage
 
-## Using VS Code or VSCodium with Gemini Code Assist
+## Manual Usage
+To use the Style Guide prompts manually, copy the content of the selected file into an AI coding assistant or other AI-enabled tool.
 
-### Setting up
-1. Include this repository as a submodule in your documentation repository.
-2. In the repository root, create the following symlinks pointing to files in the submodule:
-    1. `ln -s <path_to_submodule_dir>/.gemini`
-    2. `ln -s <path_to_submodule_dir>/vscode/workspace.code-workspace`
-    3. `ln -s <path_to_submodule_dir>/prompts/review-style.prompt.md`
+## Using VS Code / Codium with coding assistants
+After following the installation steps in [INSTALL.md](INSTALL.md):
 
-### Opening the workspace
-Open the workspace using the workspace file `workspace.code-workspace`. It contains configuration settings for Gemini Code Assist that avoid conflicting with personal settings in `.vscode/`.
+### Running a skill
+1. Position the cursor anywhere in the document you want the skill to process. If you only want to target a specific section, select it.
+2. Go to the coding assistant chat panel.
+3. (Optional) Ensure no unrelated files are pinned in the chat context to keep the task focused on the active file.
+4. Invoke the desired skill (for example, `suse-review-style`):
+   * For Google Antigravity, enter `/<skill-name>` (for example, `/suse-review-style`).
+   * For Google Gemini, type `@<skill-name>` (for example, `@suse-review-style`) and enter the related `SKILL.md` file.
 
-* From the command line: `codium <path_to_repo>/workspace.code-workspace`
-* From within the editor: Select **File** > **Open Workspace from File...** and select `<path_to_repo>/workspace.code-workspace`.
-
-### Reviewing
-1. Position the cursor anywhere in the document you want to review. If you only want to review a section, select it.
-2. Go to the Gemini Code Assist chat panel.
-    1. Make sure the context only consists of the current file.
-    2. Enter `@review-style.prompt.md`.
-    3. Gemini starts the review. In the panel, you see the reasoning for suggested changes. In the file pane, you can either **Accept** or **Reject** suggested changes.
+   The coding assistant executes the skill.
+   In the panel, you see the reasoning for suggested changes.
+   In the file pane, you can either **Accept** or **Reject** individual suggested changes or all of them at once.
 
 ### Creating content
 Add the following sentence to the end of the prompt you ask Gemini to execute:
 
-`Make sure to follow the rules in @review-style.prompt.md.`
+`Make sure to follow the rules in @GEMINI.md.`
 
 
-## Usage: Github Copilot
-You can influence the GitHub Copilot to make PR reviews based on the Style Guide AI prompts.
-Copilot expects the prompts in the `.github/instructions/` directory as files ending with `*.instructions.md`.
-You dont have to copy and rename the prompt files manually - this can be automatized using a pre-commit hook.
-To use it, copy the file `tools/pre-commit` to `.git/hooks/pre-commit` and on next commit, the Copioot instructions files will be created automatically.
+## GitHub Copilot
+You can influence GitHub Copilot to make PR reviews based on the Style Guide prompts.
+Copilot expects the prompts in the `.github/copilot-instructions.md` file where a condensed version of the prompts resides.
 
-Then on a GitHub PR page, as the Copilot for review and it will go through the PR changes and comment on their suspect parts.
+On a GitHub PR page, ask Copilot for a review and it will go through the PR changes and comment on their suspect parts.
