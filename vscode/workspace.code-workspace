@@ -1,0 +1,10 @@
+{
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    "geminicodeassist.rules": "Always validate documentation against the rules located in `.gemini/styleguide.md`."
+  }
+}
