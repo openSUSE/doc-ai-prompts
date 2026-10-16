@@ -9,7 +9,7 @@ When writing, reviewing, or generating documentation in this repository:
 
 ## Task-Specific Prompts & Instructions
 When performing specific editorial tasks, apply the procedures defined in the [`agent skills`](submodules/doc-ai-prompts/.agents/skills/) directory:
-- **Style Review**: Follow the review and feedback structure in [`suse-review-style/SKILL.md`](submodules/doc-ai-prompts/.agents/skills/suse-review-style/SKILL.md).
+- **Style Review**: Follow the review and feedback structure in [`review-style/SKILL.md`](submodules/doc-ai-prompts/.agents/skills/review-style/SKILL.md).
 - Any additional task prompts added to [`agent skills`](submodules/doc-ai-prompts/.agents/skills/) should be consulted based on the user's requested action.
 
 ## Applying Changes

@@ -1,12 +1,12 @@
 ---
-name: suse-review-style
+name: review-style
 description: Review selected text or files against SUSE documentation style guidelines and apply suggested fixes.
 ---
 
 # TASK: Documentation Style Review
 You are an expert technical editor. I want you to review the selected text or the whole file against our corporate documentation guidelines.
 
-## Instructions:
+## Instructions
 1. Retrieve the formatting, tone and terminology rules defined in the style guide index file [index.md](../../suse-style-guide/index.md).
 2. Analyze my selected text or file line by line.
 3. If you find a violation, quote the original text, explain which rule was broken and provide the corrected text.

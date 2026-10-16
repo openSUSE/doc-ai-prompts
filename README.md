@@ -24,9 +24,9 @@ After following the installation steps in [INSTALL.md](INSTALL.md):
 1. Position the cursor anywhere in the document you want the skill to process. If you only want to target a specific section, select it.
 2. Go to the coding assistant chat panel.
 3. (Optional) Ensure no unrelated files are pinned in the chat context to keep the task focused on the active file.
-4. Invoke the desired skill (for example, `suse-review-style`):
-   * For Google Antigravity, enter `/<skill-name>` (for example, `/suse-review-style`).
-   * For Google Gemini, type `@<skill-name>` (for example, `@suse-review-style`) and enter the related `SKILL.md` file.
+4. Invoke the desired skill (for example, `review-style`):
+   * For Google Antigravity, enter `/<skill-name>` (for example, `/review-style`).
+   * For Google Gemini, type `@<skill-name>` (for example, `@review-style`) and enter the related `SKILL.md` file.
 
    The coding assistant executes the skill.
    In the panel, you see the reasoning for suggested changes.
