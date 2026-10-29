@@ -1,6 +1,6 @@
 ---
 name: sanitize
-description: Update an existing content so that it is formally cleaner.
+description: Update an existing content (selection or whole file) so that it is formally cleaner.
 ---
 
 # Common Instructions
