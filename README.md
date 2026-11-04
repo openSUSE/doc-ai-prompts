@@ -39,7 +39,14 @@ Add the following sentence to the end of the prompt you ask Gemini to execute:
 
 
 ## GitHub Copilot
-You can influence GitHub Copilot to make PR reviews based on the Style Guide prompts.
-Copilot expects the prompts in the `.github/copilot-instructions.md` file where a condensed version of the prompts resides.
+You can influence GitHub Copilot to make PR reviews and coding suggestions based on the Style Guide prompts:
+* **Repository-wide rules:** Reside in `.github/copilot-instructions.md` (a condensed version of the style guide).
+* **Modular topic instructions:** Reside in `.github/instructions/*.instructions.md` (individual numbered style guide topic instructions).
+
+To synchronize or update Copilot instructions after pulling submodule changes, run:
+```bash
+./submodules/doc-ai-prompts/install.sh -u
+```
+Alternatively, invoke the `/update-copilot-instructions` (or `@update-copilot-instructions`) skill directly in your AI assistant chat.
 
 On a GitHub PR page, ask Copilot for a review and it will go through the PR changes and comment on their suspect parts.
