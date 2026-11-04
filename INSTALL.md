@@ -47,8 +47,10 @@ The script checks for changes before modifying any files. It deploys the followi
 
 ## 4. Updating Instructions
 
-When prompt files in the submodule are updated, refresh Copilot instruction files at any time with:
+When prompt files in the submodule are updated, refresh Copilot instruction files at any time using either:
 
-```bash
-./submodules/doc-ai-prompts/install.sh -u
-```
+* **Via AI assistant skill:** Run `/update-copilot-instructions` (or `@update-copilot-instructions`) in your assistant chat.
+* **Via command line:**
+  ```bash
+  ./submodules/doc-ai-prompts/install.sh -u
+  ```

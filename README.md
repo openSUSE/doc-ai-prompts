@@ -47,5 +47,6 @@ To synchronize or update Copilot instructions after pulling submodule changes, r
 ```bash
 ./submodules/doc-ai-prompts/install.sh -u
 ```
+Alternatively, invoke the `/update-copilot-instructions` (or `@update-copilot-instructions`) skill directly in your AI assistant chat.
 
 On a GitHub PR page, ask Copilot for a review and it will go through the PR changes and comment on their suspect parts.
