@@ -16,9 +16,49 @@ if [[ ! -d "$INSTALL_SRC" ]]; then
     exit 1
 fi
 
+COPILOT_ONLY=false
+NON_INTERACTIVE=false
+TARGET_DIR=""
+
+# Parse arguments
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --update-copilot-instructions|-u)
+            COPILOT_ONLY=true
+            shift
+            ;;
+        --yes|-y)
+            NON_INTERACTIVE=true
+            shift
+            ;;
+        -h|--help)
+            echo "Usage: $(basename "$0") [OPTIONS] [TARGET_DIR]"
+            echo
+            echo "Options:"
+            echo "  -u, --update-copilot-instructions  Sync only GitHub Copilot instructions"
+            echo "  -y, --yes                          Non-interactive mode (auto-confirm changes)"
+            echo "  -h, --help                         Show this help message"
+            exit 0
+            ;;
+        -*)
+            echo "Error: Unknown option: $1" >&2
+            exit 1
+            ;;
+        *)
+            TARGET_DIR="$1"
+            shift
+            ;;
+    esac
+done
+
 ask_yes_no() {
     local prompt="$1"
     local response=""
+
+    if [[ "$NON_INTERACTIVE" == true ]]; then
+        return 0
+    fi
+
     while true; do
         read -r -u 3 -p "$prompt [y/N]: " response || true
         case "${response:-n}" in
@@ -35,9 +75,36 @@ ask_yes_no() {
     done
 }
 
-# 1. Determine target documentation repository root
-TARGET_DIR="${1:-}"
+smart_copy() {
+    local src="$1"
+    local dest="$2"
+    local label="$3"
 
+    mkdir -p "$(dirname "$dest")"
+
+    if [[ -f "$dest" ]] && cmp -s "$src" "$dest"; then
+        echo "  Up to date: $label"
+        return 0
+    fi
+
+    if [[ -f "$dest" ]]; then
+        if ask_yes_no "File '$label' has changed. Update?"; then
+            cp "$src" "$dest"
+            echo "  Updated (real file): $label"
+        else
+            echo "  Skipped: $label"
+        fi
+    else
+        if ask_yes_no "Create file '$label' in target?"; then
+            cp "$src" "$dest"
+            echo "  Installed (real file): $label"
+        else
+            echo "  Skipped: $label"
+        fi
+    fi
+}
+
+# 1. Determine target documentation repository root
 if [[ -z "$TARGET_DIR" ]]; then
     # Auto-detect target repository root
     SUPERPROJECT="$(git -C "$SCRIPT_DIR" rev-parse --show-superproject-working-tree 2>/dev/null || true)"
@@ -53,12 +120,16 @@ if [[ -z "$TARGET_DIR" ]]; then
         DETECTED_TARGET=""
     fi
 
-    echo "Target documentation repository root:"
-    if [[ -n "$DETECTED_TARGET" ]]; then
-        read -r -u 3 -p "Enter path [default: $DETECTED_TARGET]: " INPUT_TARGET || true
-        TARGET_DIR="${INPUT_TARGET:-$DETECTED_TARGET}"
+    if [[ "$NON_INTERACTIVE" == true ]]; then
+        TARGET_DIR="${DETECTED_TARGET:-$PWD}"
     else
-        read -r -u 3 -p "Enter path: " TARGET_DIR || true
+        echo "Target documentation repository root:"
+        if [[ -n "$DETECTED_TARGET" ]]; then
+            read -r -u 3 -p "Enter path [default: $DETECTED_TARGET]: " INPUT_TARGET || true
+            TARGET_DIR="${INPUT_TARGET:-$DETECTED_TARGET}"
+        else
+            read -r -u 3 -p "Enter path: " TARGET_DIR || true
+        fi
     fi
 fi
 
@@ -78,8 +149,39 @@ if [[ ! -d "$TARGET_DIR" ]]; then
 fi
 
 TARGET_DIR="$(cd "$TARGET_DIR" && pwd)"
-echo "Installing to: $TARGET_DIR"
+echo "Target repository: $TARGET_DIR"
 echo
+
+# Helper function to sync Copilot instruction files
+sync_copilot_instructions() {
+    local guide_src="$SCRIPT_DIR/.agents/suse-style-guide"
+    local copilot_dest="$TARGET_DIR/.github/instructions"
+
+    echo "Synchronizing GitHub Copilot instructions..."
+
+    # Sync single repository-wide instruction file
+    local main_guide="$guide_src/Style-Guide-onefile.md"
+    if [[ -f "$main_guide" ]]; then
+        smart_copy "$main_guide" "$TARGET_DIR/.github/copilot-instructions.md" ".github/copilot-instructions.md"
+    fi
+
+    # Sync modular numbered instruction files (e.g. 00-*, 01-*, etc.)
+    if [[ -d "$guide_src" ]]; then
+        for f in "$guide_src"/[0-9][0-9]-*.md; do
+            [[ -f "$f" ]] || continue
+            local base="$(basename "$f" .md)"
+            smart_copy "$f" "$copilot_dest/${base}.instructions.md" ".github/instructions/${base}.instructions.md"
+        done
+    fi
+}
+
+# If only updating Copilot instructions, run sync and exit
+if [[ "$COPILOT_ONLY" == true ]]; then
+    sync_copilot_instructions
+    echo
+    echo "Copilot instructions update complete."
+    exit 0
+fi
 
 # 2. Process directories first
 while IFS= read -r rel_dir; do
@@ -104,6 +206,12 @@ while IFS= read -r rel_file; do
     dest_path="$TARGET_DIR/$rel_file"
     dest_parent="$(dirname "$dest_path")"
 
+    # Skip copilot-instructions.md here as it is handled by sync_copilot_instructions
+    base_name="$(basename "$rel_file")"
+    if [[ "$base_name" == "copilot-instructions.md" ]]; then
+        continue
+    fi
+
     # Ensure parent directory exists
     if [[ ! -d "$dest_parent" ]]; then
         if ask_yes_no "Parent directory for '$rel_file' does not exist. Create '$dest_parent'?"; then
@@ -122,6 +230,19 @@ while IFS= read -r rel_file; do
     fi
 
     if [[ "$file_exists" = true ]]; then
+        # Check if symlink target is identical
+        if [[ -L "$src_path" && -L "$dest_path" ]]; then
+            if [[ "$(readlink "$src_path")" == "$(readlink "$dest_path")" ]]; then
+                echo "  Up to date: $rel_file"
+                continue
+            fi
+        elif [[ -f "$src_path" && -f "$dest_path" ]]; then
+            if cmp -s "$src_path" "$dest_path"; then
+                echo "  Up to date: $rel_file"
+                continue
+            fi
+        fi
+
         if ! ask_yes_no "File '$rel_file' already exists in target. Overwrite?"; then
             echo "  Skipped: $rel_file"
             continue
@@ -134,13 +255,7 @@ while IFS= read -r rel_file; do
         fi
     fi
 
-    # Check rules for copilot-instructions.md vs symlinks vs regular files
-    base_name="$(basename "$rel_file")"
-    if [[ "$base_name" == "copilot-instructions.md" ]]; then
-        # Copilot instructions must be a real file: dereference symlinks
-        cp -L "$src_path" "$dest_path"
-        echo "  Installed (real file): $rel_file"
-    elif [[ -L "$src_path" ]]; then
+    if [[ -L "$src_path" ]]; then
         # Leave other symlinks as symlinks
         cp -d "$src_path" "$dest_path"
         echo "  Installed (symlink): $rel_file -> $(readlink "$src_path")"
@@ -168,12 +283,16 @@ if [[ "$TARGET_DIR" != "$SCRIPT_DIR" && -d "$agents_src" ]]; then
     fi
 
     if [[ "$agents_exists" = true ]]; then
-        if ask_yes_no "'.agents' already exists in target. Overwrite with symlink to '$agents_rel_target'?"; then
-            rm -rf "$agents_dest"
-            ln -s "$agents_rel_target" "$agents_dest"
-            echo "  Installed (symlink): .agents -> $agents_rel_target"
+        if [[ -L "$agents_dest" && "$(readlink "$agents_dest")" == "$agents_rel_target" ]]; then
+            echo "  Up to date: .agents"
         else
-            echo "  Skipped: .agents"
+            if ask_yes_no "'.agents' already exists in target. Overwrite with symlink to '$agents_rel_target'?"; then
+                rm -rf "$agents_dest"
+                ln -s "$agents_rel_target" "$agents_dest"
+                echo "  Installed (symlink): .agents -> $agents_rel_target"
+            else
+                echo "  Skipped: .agents"
+            fi
         fi
     else
         if ask_yes_no "Create symlink '.agents' -> '$agents_rel_target' in target?"; then
@@ -184,6 +303,9 @@ if [[ "$TARGET_DIR" != "$SCRIPT_DIR" && -d "$agents_src" ]]; then
         fi
     fi
 fi
+
+# 5. Synchronize Copilot instructions
+sync_copilot_instructions
 
 echo
 echo "Installation complete."
