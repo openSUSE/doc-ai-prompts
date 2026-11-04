@@ -120,7 +120,7 @@ if [[ -z "$TARGET_DIR" ]]; then
         DETECTED_TARGET=""
     fi
 
-    if [[ "$NON_INTERACTIVE" == true ]]; then
+    if [[ "$NON_INTERACTIVE" == true || "$COPILOT_ONLY" == true ]]; then
         TARGET_DIR="${DETECTED_TARGET:-$PWD}"
     else
         echo "Target documentation repository root:"
