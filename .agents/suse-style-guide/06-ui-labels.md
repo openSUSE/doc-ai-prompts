@@ -1,3 +1,6 @@
+---
+applyTo: "**/*.{adoc,xml}"
+---
 # User Interface References
 Ensure UI references remain technically accurate and easy to scan.
 

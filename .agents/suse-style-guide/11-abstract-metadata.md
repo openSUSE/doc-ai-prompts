@@ -1,3 +1,6 @@
+---
+applyTo: "**/*.{adoc,xml}"
+---
 # Abstract and Metadata
 When provided with a draft document, your task is to generate a highly structured abstract, a meta title, a meta description and a social description.
 

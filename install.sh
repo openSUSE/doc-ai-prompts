@@ -107,17 +107,30 @@ smart_copy() {
 # 1. Determine target documentation repository root
 if [[ -z "$TARGET_DIR" ]]; then
     # Auto-detect target repository root
-    SUPERPROJECT="$(git -C "$SCRIPT_DIR" rev-parse --show-superproject-working-tree 2>/dev/null || true)"
-    if [[ -n "$SUPERPROJECT" ]]; then
-        DETECTED_TARGET="$SUPERPROJECT"
-    elif [[ "$PWD" != "$SCRIPT_DIR" && (-d "$PWD/.git" || -f "$PWD/.git") ]]; then
+    DETECTED_TARGET=""
+    if [[ "$PWD" != "$SCRIPT_DIR" && (-d "$PWD/.git" || -f "$PWD/.git") ]]; then
+        # Prioritize invocation from repository root
         DETECTED_TARGET="$PWD"
-    elif [[ -d "$SCRIPT_DIR/../.git" || -f "$SCRIPT_DIR/../.git" ]]; then
-        DETECTED_TARGET="$(cd "$SCRIPT_DIR/.." && pwd)"
-    elif [[ -d "$SCRIPT_DIR/../../.git" || -f "$SCRIPT_DIR/../../.git" ]]; then
-        DETECTED_TARGET="$(cd "$SCRIPT_DIR/../.." && pwd)"
     else
-        DETECTED_TARGET=""
+        # Traverse git superprojects up to the topmost root repository
+        # (handles submodules nested within submodules like product-docs-common/ai-prompts)
+        curr="$SCRIPT_DIR"
+        topmost=""
+        while true; do
+            super="$(git -C "$curr" rev-parse --show-superproject-working-tree 2>/dev/null || true)"
+            [[ -n "$super" ]] || break
+            topmost="$super"
+            curr="$super"
+        done
+        [[ -n "$topmost" ]] && DETECTED_TARGET="$topmost"
+    fi
+
+    if [[ -z "$DETECTED_TARGET" ]]; then
+        if [[ -d "$SCRIPT_DIR/../.git" || -f "$SCRIPT_DIR/../.git" ]]; then
+            DETECTED_TARGET="$(cd "$SCRIPT_DIR/.." && pwd)"
+        elif [[ -d "$SCRIPT_DIR/../../.git" || -f "$SCRIPT_DIR/../../.git" ]]; then
+            DETECTED_TARGET="$(cd "$SCRIPT_DIR/../.." && pwd)"
+        fi
     fi
 
     if [[ "$NON_INTERACTIVE" == true || "$COPILOT_ONLY" == true ]]; then
@@ -159,12 +172,6 @@ sync_copilot_instructions() {
 
     echo "Synchronizing GitHub Copilot instructions..."
 
-    # Sync single repository-wide instruction file
-    local main_guide="$guide_src/Style-Guide-onefile.md"
-    if [[ -f "$main_guide" ]]; then
-        smart_copy "$main_guide" "$TARGET_DIR/.github/copilot-instructions.md" ".github/copilot-instructions.md"
-    fi
-
     # Sync modular numbered instruction files (e.g. 00-*, 01-*, etc.)
     if [[ -d "$guide_src" ]]; then
         for f in "$guide_src"/[0-9][0-9]-*.md; do
@@ -205,12 +212,6 @@ while IFS= read -r rel_file; do
     src_path="$INSTALL_SRC/$rel_file"
     dest_path="$TARGET_DIR/$rel_file"
     dest_parent="$(dirname "$dest_path")"
-
-    # Skip copilot-instructions.md here as it is handled by sync_copilot_instructions
-    base_name="$(basename "$rel_file")"
-    if [[ "$base_name" == "copilot-instructions.md" ]]; then
-        continue
-    fi
 
     # Ensure parent directory exists
     if [[ ! -d "$dest_parent" ]]; then

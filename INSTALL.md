@@ -42,7 +42,6 @@ The script checks for changes before modifying any files. It deploys the followi
 * **`AGENTS.md`**: Core agent instructions and guidelines referencing the style guide and skills.
 * **`GEMINI.md`**: Symlink pointing to `AGENTS.md` for Gemini Code Assist.
 * **`.agents`**: Symlink pointing to the submodule's `.agents` directory.
-* **`.github/copilot-instructions.md`**: Global GitHub Copilot instructions installed as a regular file (dereferenced from the style guide so Copilot can read it without traversing submodules).
 * **`.github/instructions/*.instructions.md`**: Modular GitHub Copilot instruction files corresponding to each numbered topic in `.agents/suse-style-guide/`.
 
 ## 4. Updating Instructions
