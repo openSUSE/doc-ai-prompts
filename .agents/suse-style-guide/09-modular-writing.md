@@ -1,3 +1,6 @@
+---
+applyTo: "**/*.{adoc,xml}"
+---
 # Structural and Modular Writing
 Treat every topic as independently reusable documentation.
 

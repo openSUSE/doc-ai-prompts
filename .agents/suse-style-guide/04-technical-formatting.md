@@ -1,3 +1,6 @@
+---
+applyTo: "**/*.{adoc,xml}"
+---
 # Technical Formatting
 Format technical references consistently.
 
