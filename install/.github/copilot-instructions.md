@@ -1,1 +1,0 @@
-../../.agents/suse-style-guide/Style-Guide-onefile.md
