@@ -25,14 +25,14 @@ Execute the installation script from your documentation repository root:
 
 ### Script Options
 
-* **`-u, --update-copilot-instructions`**: Synchronize only the GitHub Copilot instruction files (`.github/copilot-instructions.md` and `.github/instructions/*.instructions.md`) without re-running the full interactive setup.
+* **`-u, --update-copilot-instructions`**: Synchronize only the GitHub Copilot instruction files (`.github/instructions/*.instructions.md`) without re-running the full interactive setup.
 * **`-y, --yes`**: Non-interactive mode (automatically confirm updates, useful for CI or scripts).
 * **`-h, --help`**: Display available options.
 
 You can also pass the path to the target documentation repository explicitly:
 
 ```bash
-./submodules/doc-ai-prompts/install.sh [OPTIONS] /path/to/doc-repo
+./install.sh [OPTIONS] /path/to/doc-repo
 ```
 
 ## 3. What Gets Installed
@@ -51,5 +51,5 @@ When prompt files in the submodule are updated, refresh Copilot instruction file
 * **Via AI assistant skill:** Run `/update-copilot-instructions` (or `@update-copilot-instructions`) in your assistant chat.
 * **Via command line:**
   ```bash
-  ./submodules/doc-ai-prompts/install.sh -u
+  ./install.sh -u
   ```
