@@ -1,3 +1,6 @@
+---
+applyTo: "**/*.{adoc,xml}"
+---
 # Tone and Voice
 Write in a professional, clear and inclusive tone.
 

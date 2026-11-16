@@ -1,3 +1,6 @@
+---
+applyTo: "**/*.{adoc,xml}"
+---
 # Grammar and Punctuation
 Enforce SUSE grammar and punctuation conventions.
 

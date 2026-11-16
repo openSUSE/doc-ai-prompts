@@ -1,3 +1,6 @@
+---
+applyTo: "**/*.{adoc,xml}"
+---
 # Terminology and Naming
 Apply SUSE terminology and naming conventions consistently.
 Ensure precise wording to avoid ambiguity for localization.

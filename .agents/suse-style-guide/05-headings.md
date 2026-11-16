@@ -1,3 +1,6 @@
+---
+applyTo: "**/*.{adoc,xml}"
+---
 # Headings and Titles
 Enforce SUSE heading conventions.
 Keep headings concise and structurally consistent.

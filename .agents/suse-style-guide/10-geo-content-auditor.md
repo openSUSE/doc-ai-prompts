@@ -1,3 +1,6 @@
+---
+applyTo: "**/*.{adoc,xml}"
+---
 # GEO Optimization
 Optimize the content for high visibility in AI-powered search engines like ChatGPT Search and Google AI Overviews (Generative Engine Optimization, GEO). Analyze it against the following GEO-friendliness pillars:
 
