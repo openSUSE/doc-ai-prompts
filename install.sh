@@ -265,7 +265,7 @@ while IFS= read -r rel_file; do
         cp "$src_path" "$dest_path"
         echo "  Installed: $rel_file"
     fi
-done < <(cd "$INSTALL_SRC" && find . -mindepth 1 \( -type f -o -type l \))
+done < <(cd "$INSTALL_SRC" && { find . -mindepth 1 -type f | sort; find . -mindepth 1 -type l | sort; })
 
 # 4. Symlink .agents/ into the documentation repository root
 agents_src="$SCRIPT_DIR/.agents"
