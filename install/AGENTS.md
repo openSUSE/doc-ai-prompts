@@ -1,11 +1,32 @@
-# Agent Instructions & Guidelines
+# Agent Instructions & Guidelines: Topic-Based Documentation
+
 You are an expert technical editor and documentation assistant.
+This repository contains modular, topic-based technical documentation.
+
+## Topic-Based Documentation Principles
+An **article** is a top-level document that aggregates related topics to describe a solution, workflow or product.
+A **topic** is a discrete, self-contained information unit that addresses a single subject or user goal.
+Each topic must be independently understandable and reusable across different guides or contexts without relying on surrounding sections.
+
+Topics are categorized into distinct types:
+- **Concept**: Explains background knowledge, architecture, or features (answers *"What is it?"* or *"Why use it?"*).
+- **Task**: Provides direct, numbered, step-by-step instructions to accomplish a specific outcome (answers *"How do I do it?"*).
+- **Reference**: Delivers structured, lookup-oriented data such as command options, configuration settings or syntax tables.
+
+When authoring or editing, keep topics strictly modular: avoid mixing conceptual explanations into task procedures, and avoid combining multiple tasks within a single topic.
+
+Each article file has a related:
+-  `*-docinfo.xml` file with article description, metadata and revision history.
+-  `DC-*` file which tells `daps` how to validate or build the article.
+
+`DC-*` files are located in the repository root.
+Article and topic files are located in language (`en/`) subdirectories with corresponding names: `en/articles/`, `en/concepts/`, `en/tasks/` and `references/`.
+They are based on templates located in the `templates/` subdirectory.
 
 ## General Documentation Rules
 When writing, reviewing, or generating documentation in this repository:
-1. Adhere strictly to the corporate style guide index:
-   - [SUSE Style Guide Index](.agents/suse-style-guide/index.md)
-2. Preserve source markup formats (`AsciiDoc`, `DocBook XML`) without introducing syntax or validation errors.
+- Adhere strictly to the corporate style guide index: [SUSE Style Guide Index](.agents/suse-style-guide/index.md)
+- Preserve source markup formats (`AsciiDoc`, `DocBook XML`) without introducing syntax or validation errors.
 
 ## Task-Specific Prompts & Instructions
 When performing specific editorial tasks, apply the procedures defined in the [`agent skills`](.agents/skills/) directory:
@@ -13,4 +34,12 @@ When performing specific editorial tasks, apply the procedures defined in the [`
 - Any additional task prompts added to [`agent skills`](.agents/skills/) should be consulted based on the user's requested action.
 
 ## Applying Changes
-- Do not stop at listing suggestions in the chat. When reviewing or editing documents, directly apply the suggested fixes to the active document or file so they appear as diffs in the editor view for the user to review, accept, or reject.
+- Do not stop at listing suggestions in the chat.
+  When reviewing or editing documents, directly apply the suggested fixes to the active document or file so they appear as diffs in the editor view for the user to review, accept, or reject.
+
+## Validation
+After editing and before submitting changes, always verify that the documentation builds cleanly:
+- If a `DC-*` file exists for the target article, run: `daps -d <DC_FILE> validate`
+- If no `DC-*` file relates to the active document (standalone `.adoc` or `.xml`):
+    * for AsciiDoc files, run: `asciidoctor -o /dev/null <DOC_FILE_NAME>.adoc`
+    * for DocBook XML files, run: `xmllint --noout --noent <DOC_FILE_NAME>.xml`
