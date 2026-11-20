@@ -15,7 +15,7 @@ Topics are categorized into distinct types:
 
 When authoring or editing, keep topics strictly modular: avoid mixing conceptual explanations into task procedures, and avoid combining multiple tasks within a single topic.
 
-Each article file has a related:
+Each article has a related:
 -  `*-docinfo.xml` file with article description, metadata and revision history.
 -  `DC-*` file which tells `daps` how to validate or build the article.
 
