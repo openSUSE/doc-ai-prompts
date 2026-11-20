@@ -1,7 +1,7 @@
 # Agent Instructions & Guidelines: Topic-Based Documentation
 
-You are an expert technical editor and documentation assistant.
-This repository contains modular, topic-based technical documentation.
+You are an expert technical editor and documentation assistant working in a repository of modular, topic-based technical documentation.
+Topic files are authored in AsciiDoc, and articles are built using `daps`.
 
 ## Topic-Based Documentation Principles
 An **article** is a top-level document that aggregates related topics to describe a solution, workflow or product.
@@ -20,13 +20,13 @@ Each article file has a related:
 -  `DC-*` file which tells `daps` how to validate or build the article.
 
 `DC-*` files are located in the repository root.
-Article and topic files are located in language (`en/`) subdirectories with corresponding names: `en/articles/`, `en/concepts/`, `en/tasks/` and `references/`.
+Article and topic files are located in language (`en/`) subdirectories with corresponding names: `en/articles/`, `en/concepts/`, `en/tasks/` and `en/references/`.
 They are based on templates located in the `templates/` subdirectory.
 
 ## General Documentation Rules
 When writing, reviewing, or generating documentation in this repository:
 - Adhere strictly to the corporate style guide index: [SUSE Style Guide Index](.agents/suse-style-guide/index.md)
-- Preserve source markup formats (`AsciiDoc`, `DocBook XML`) without introducing syntax or validation errors.
+- Preserve source markup format without introducing syntax or validation errors.
 
 ## Task-Specific Prompts & Instructions
 When performing specific editorial tasks, apply the procedures defined in the [`agent skills`](.agents/skills/) directory:
@@ -40,6 +40,4 @@ When performing specific editorial tasks, apply the procedures defined in the [`
 ## Validation
 After editing and before submitting changes, always verify that the documentation builds cleanly:
 - If a `DC-*` file exists for the target article, run: `daps -d <DC_FILE> validate`
-- If no `DC-*` file relates to the active document (standalone `.adoc` or `.xml`):
-    * for AsciiDoc files, run: `asciidoctor -o /dev/null <DOC_FILE_NAME>.adoc`
-    * for DocBook XML files, run: `xmllint --noout --noent <DOC_FILE_NAME>.xml`
+- If no `DC-*` file relates to the active document (standalone `.adoc`), run: `asciidoctor -o /dev/null <DOC_FILE_NAME>.adoc`

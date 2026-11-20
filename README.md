@@ -12,6 +12,11 @@ The `.agents/suse-style-guide/Style-Guide-onefile.md` file contains a minimal ve
 Files in the `.agents/suse-style-guide/` directory contain a simplified version of the SUSE Style Guide divided into multiple topics presented as AI prompts.
 They are prefixed with a number that suggests the recommended order of processing.
 
+# Agent Instructions
+General agent guidelines and repository rules are provided in the `install/` directory as tailored instruction files (for example, `AGENTS.asciidoc-daps.md` for modular AsciiDoc documentation built with DAPS).
+
+When installed in a documentation repository, the chosen file is symlinked as `AGENTS.md` (with `GEMINI.md` symlinked to `AGENTS.md`).
+
 # Usage
 
 ## Manual Usage
@@ -33,9 +38,9 @@ After following the installation steps in [INSTALL.md](INSTALL.md):
    In the file pane, you can either **Accept** or **Reject** individual suggested changes or all of them at once.
 
 ### Creating content
-Add the following sentence to the end of the prompt you ask Gemini to execute:
+Add the following sentence to the end of the prompt you ask your AI assistant to execute:
 
-`Make sure to follow the rules in @GEMINI.md.`
+`Make sure to follow the rules in @AGENTS.md.` (or `@GEMINI.md` for Gemini Code Assist)
 
 
 ## GitHub Copilot

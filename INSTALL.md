@@ -23,6 +23,8 @@ Execute the installation script from your documentation repository root:
 ./submodules/doc-ai-prompts/install.sh
 ```
 
+During installation, the script copies all available `AGENTS.*.md` files to the target repository and prompts you to select which one should be symlinked as `AGENTS.md` (if the symlink does not already exist).
+
 ### Script Options
 
 * **`-u, --update-copilot-instructions`**: Synchronize only the GitHub Copilot instruction files (`.github/instructions/*.instructions.md`) without re-running the full interactive setup.
@@ -39,7 +41,8 @@ You can also pass the path to the target documentation repository explicitly:
 
 The script checks for changes before modifying any files. It deploys the following to your documentation repository:
 
-* **`AGENTS.md`**: Core agent instructions and guidelines referencing the style guide and skills.
+* **`AGENTS.*.md`** (such as `AGENTS.asciidoc-daps.md`): Core agent instructions and guidelines tailored to specific documentation setups (referencing the style guide, topic structure, validation commands and skills).
+* **`AGENTS.md`**: Symlink pointing to the selected `AGENTS.*.md` file appropriate for your repository.
 * **`GEMINI.md`**: Symlink pointing to `AGENTS.md` for Gemini Code Assist.
 * **`.agents`**: Symlink pointing to the submodule's `.agents` directory.
 * **`.github/instructions/*.instructions.md`**: Modular GitHub Copilot instruction files corresponding to each numbered topic in `.agents/suse-style-guide/`.
