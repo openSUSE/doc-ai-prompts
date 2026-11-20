@@ -265,7 +265,7 @@ while IFS= read -r rel_file; do
         cp "$src_path" "$dest_path"
         echo "  Installed: $rel_file"
     fi
-done < <(cd "$INSTALL_SRC" && { find . -mindepth 1 -type f | sort; find . -mindepth 1 -type l | sort; })
+done < <(cd "$INSTALL_SRC" && { find . -mindepth 1 -type f | sort; find . -mindepth 1 -type l ! -name "GEMINI.md" | sort; })
 
 # 4. Configure AGENTS.md symlink
 agents_symlink="$TARGET_DIR/AGENTS.md"
@@ -360,7 +360,31 @@ if [[ "$TARGET_DIR" != "$SCRIPT_DIR" && -d "$agents_src" ]]; then
     fi
 fi
 
-# 6. Synchronize Copilot instructions
+# 6. Symlink GEMINI.md into the documentation repository root
+gemini_dest="$TARGET_DIR/GEMINI.md"
+
+if [[ -L "$gemini_dest" && "$(readlink "$gemini_dest")" == "AGENTS.md" ]]; then
+    echo "  Up to date: GEMINI.md"
+else
+    if [[ -e "$gemini_dest" || -L "$gemini_dest" ]]; then
+        if ask_yes_no "File 'GEMINI.md' already exists in target. Overwrite with symlink to 'AGENTS.md'?"; then
+            rm -f "$gemini_dest"
+            ln -s "AGENTS.md" "$gemini_dest"
+            echo "  Installed (symlink): GEMINI.md -> AGENTS.md"
+        else
+            echo "  Skipped: GEMINI.md"
+        fi
+    else
+        if ask_yes_no "Create symlink 'GEMINI.md' -> 'AGENTS.md' in target?"; then
+            ln -s "AGENTS.md" "$gemini_dest"
+            echo "  Installed (symlink): GEMINI.md -> AGENTS.md"
+        else
+            echo "  Skipped: GEMINI.md"
+        fi
+    fi
+fi
+
+# 7. Synchronize Copilot instructions
 sync_copilot_instructions
 
 echo
