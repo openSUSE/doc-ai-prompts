@@ -75,7 +75,7 @@ ask_yes_no() {
     done
 }
 
-# 1. Determine target documentation repository root
+# Determine target documentation repository root
 if [[ -z "$TARGET_DIR" ]]; then
     # Auto-detect target repository root
     DETECTED_TARGET=""
@@ -196,7 +196,7 @@ if [[ "$COPILOT_ONLY" == true ]]; then
     exit 0
 fi
 
-# 2. Process directories first
+# Process directories first
 while IFS= read -r rel_dir; do
     rel_dir="${rel_dir#./}"
     [[ -z "$rel_dir" || "$rel_dir" == "." ]] && continue
@@ -211,7 +211,7 @@ while IFS= read -r rel_dir; do
     fi
 done < <(cd "$INSTALL_SRC" && find . -mindepth 1 -type d)
 
-# 3. Process files and symlinks
+# Process files and symlinks
 while IFS= read -r rel_file; do
     rel_file="${rel_file#./}"
     [[ -z "$rel_file" ]] && continue
@@ -273,7 +273,7 @@ while IFS= read -r rel_file; do
     fi
 done < <(cd "$INSTALL_SRC" && { find . -mindepth 1 -type f | sort; find . -mindepth 1 -type l ! -name "GEMINI.md" | sort; })
 
-# 4. Configure AGENTS.md symlink
+# Configure AGENTS.md symlink
 agents_symlink="$TARGET_DIR/AGENTS.md"
 
 if [[ -L "$agents_symlink" ]]; then
@@ -328,7 +328,7 @@ else
     fi
 fi
 
-# 5. Symlink .agents/ into the documentation repository root
+# Symlink .agents/ into the documentation repository root
 agents_src="$SCRIPT_DIR/.agents"
 agents_dest="$TARGET_DIR/.agents"
 
@@ -366,7 +366,7 @@ if [[ "$TARGET_DIR" != "$SCRIPT_DIR" && -d "$agents_src" ]]; then
     fi
 fi
 
-# 6. Symlink GEMINI.md into the documentation repository root
+# Symlink GEMINI.md into the documentation repository root
 gemini_dest="$TARGET_DIR/GEMINI.md"
 
 if [[ -L "$gemini_dest" && "$(readlink "$gemini_dest")" == "AGENTS.md" ]]; then
@@ -390,7 +390,7 @@ else
     fi
 fi
 
-# 7. Synchronize Copilot instructions
+# Synchronize Copilot instructions
 sync_copilot_instructions
 
 echo

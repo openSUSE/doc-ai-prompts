@@ -4,7 +4,8 @@ To integrate these AI prompts and agent instructions into your documentation rep
 
 ## 1. Add Submodule
 
-In the root directory of your documentation repository, add this repository as a submodule in `submodules/doc-ai-prompts`:
+In the root directory of your documentation repository, add this repository as a submodule in your preferred subdirectory.
+This procedure assumes adding the submodule to `submodules/doc-ai-prompts`:
 
 ```bash
 git submodule add https://github.com/openSUSE/doc-ai-prompts.git submodules/doc-ai-prompts
