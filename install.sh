@@ -75,35 +75,6 @@ ask_yes_no() {
     done
 }
 
-smart_copy() {
-    local src="$1"
-    local dest="$2"
-    local label="$3"
-
-    mkdir -p "$(dirname "$dest")"
-
-    if [[ -f "$dest" ]] && cmp -s "$src" "$dest"; then
-        echo "  Up to date: $label"
-        return 0
-    fi
-
-    if [[ -f "$dest" ]]; then
-        if ask_yes_no "File '$label' has changed. Update?"; then
-            cp "$src" "$dest"
-            echo "  Updated (real file): $label"
-        else
-            echo "  Skipped: $label"
-        fi
-    else
-        if ask_yes_no "Create file '$label' in target?"; then
-            cp "$src" "$dest"
-            echo "  Installed (real file): $label"
-        else
-            echo "  Skipped: $label"
-        fi
-    fi
-}
-
 # 1. Determine target documentation repository root
 if [[ -z "$TARGET_DIR" ]]; then
     # Auto-detect target repository root
@@ -172,13 +143,48 @@ sync_copilot_instructions() {
 
     echo "Synchronizing GitHub Copilot instructions..."
 
-    # Sync modular numbered instruction files (e.g. 00-*, 01-*, etc.)
-    if [[ -d "$guide_src" ]]; then
+    if [[ ! -d "$guide_src" ]]; then
+        echo "  Notice: Style guide directory not found: $guide_src"
+        return 0
+    fi
+
+    # Check if any files need creating or updating
+    local needs_sync=false
+    for f in "$guide_src"/[0-9][0-9]-*.md; do
+        [[ -f "$f" ]] || continue
+        local base="$(basename "$f" .md)"
+        local dest="$copilot_dest/${base}.instructions.md"
+        if [[ ! -f "$dest" ]] || ! cmp -s "$f" "$dest"; then
+            needs_sync=true
+            break
+        fi
+    done
+
+    if [[ "$needs_sync" == false ]]; then
+        echo "  Up to date: GitHub Copilot instructions (.github/instructions/)"
+        return 0
+    fi
+
+    if ask_yes_no "Synchronize GitHub Copilot instructions in '.github/instructions/'?"; then
+        mkdir -p "$copilot_dest"
         for f in "$guide_src"/[0-9][0-9]-*.md; do
             [[ -f "$f" ]] || continue
             local base="$(basename "$f" .md)"
-            smart_copy "$f" "$copilot_dest/${base}.instructions.md" ".github/instructions/${base}.instructions.md"
+            local dest="$copilot_dest/${base}.instructions.md"
+            local label=".github/instructions/${base}.instructions.md"
+
+            if [[ -f "$dest" ]] && cmp -s "$f" "$dest"; then
+                echo "  Up to date: $label"
+            elif [[ -f "$dest" ]]; then
+                cp "$f" "$dest"
+                echo "  Updated: $label"
+            else
+                cp "$f" "$dest"
+                echo "  Installed: $label"
+            fi
         done
+    else
+        echo "  Skipped: GitHub Copilot instructions"
     fi
 }
 
