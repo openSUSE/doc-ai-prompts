@@ -4,24 +4,27 @@ To integrate these AI prompts and agent instructions into your documentation rep
 
 ## 1. Add Submodule
 
-In the root directory of your documentation repository, add this repository as a submodule in `submodules/doc-ai-prompts`:
+In the root directory of your documentation repository, add this repository as a submodule in your preferred directory:
 
 ```bash
-git submodule add https://github.com/openSUSE/doc-ai-prompts.git submodules/doc-ai-prompts
+git submodule add https://github.com/openSUSE/doc-ai-prompts.git <SUBMODULE_PATH>
 ```
 
 > **Tip:** To prevent Git from reporting changes within the submodule in your documentation repository status, run:
 > ```bash
-> git config submodule.submodules/doc-ai-prompts.ignore all
+> git config submodule.<SUBMODULE_PATH>.ignore all
 > ```
 
 ## 2. Run Installation Script
 
-Execute the installation script from your documentation repository root:
+Change to the submodule directory and execute the installation script:
 
 ```bash
-./submodules/doc-ai-prompts/install.sh
+cd <SUBMODULE_PATH>
+./install.sh
 ```
+
+During installation, the script copies all available `AGENTS.*.md` files to the target repository and prompts you to select which one should be symlinked as `AGENTS.md` (if the symlink does not already exist).
 
 ### Script Options
 
@@ -39,7 +42,8 @@ You can also pass the path to the target documentation repository explicitly:
 
 The script checks for changes before modifying any files. It deploys the following to your documentation repository:
 
-* **`AGENTS.md`**: Core agent instructions and guidelines referencing the style guide and skills.
+* **`AGENTS.*.md`** (such as `AGENTS.asciidoc-daps.md`): Core agent instructions and guidelines tailored to specific documentation setups (referencing the style guide, topic structure, validation commands and skills).
+* **`AGENTS.md`**: Symlink pointing to the selected `AGENTS.*.md` file appropriate for your repository.
 * **`GEMINI.md`**: Symlink pointing to `AGENTS.md` for Gemini Code Assist.
 * **`.agents`**: Symlink pointing to the submodule's `.agents` directory.
 * **`.github/instructions/*.instructions.md`**: Modular GitHub Copilot instruction files corresponding to each numbered topic in `.agents/suse-style-guide/`.
@@ -51,5 +55,6 @@ When prompt files in the submodule are updated, refresh Copilot instruction file
 * **Via AI assistant skill:** Run `/update-copilot-instructions` (or `@update-copilot-instructions`) in your assistant chat.
 * **Via command line:**
   ```bash
+  cd <SUBMODULE_PATH>
   ./install.sh -u
   ```
