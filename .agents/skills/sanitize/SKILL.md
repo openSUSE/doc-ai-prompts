@@ -9,6 +9,8 @@ description: Update an existing content (selection or whole file) so that it is 
 1. Add IDs to all sections, tables, figures, procedures and examples if the don't exist.
    Update the existing IDs according to the related content.
    All IDs should begin with a specific prefix that characterizes the whole topic.
+1. In verbatim blocks, append command's output right after the command itself.
+   Do not introduce a separate block for sample command's output.
 
 
 # AsciiDoc-related Instructions
