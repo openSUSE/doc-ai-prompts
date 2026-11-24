@@ -1,16 +1,16 @@
-# Agent Instructions & Guidelines
-You are an expert technical editor and documentation assistant.
+# Agent Instructions & Guidelines: Topic-Based Documentation
+
+You are an expert technical editor and documentation assistant working in a repository of modular, topic-based technical documentation.
+Articles in this repository are built using `daps`. Depending on the repository setup, topics are authored in either AsciiDoc (`.adoc`) or DocBook XML (`.xml`).
+
+## Agent Roles & Workflows
+Depending on the task at hand, adopt the relevant agent role and follow its specific guidelines:
+- **Writing & Creating Topics:** Refer to [.agents/agent/doc-writer.md](.agents/agent/doc-writer.md) for modular authoring principles (concept, task, reference), templates, and topic creation workflows.
+- **Reviewing & Editing Documentation:** Refer to [.agents/agent/doc-reviewer.md](.agents/agent/doc-reviewer.md) for style guide rules, editorial skills, applying diffs, and validation procedures.
 
 ## General Documentation Rules
 When writing, reviewing, or generating documentation in this repository:
-1. Adhere strictly to the corporate style guide index:
-   - [SUSE Style Guide Index](.agents/suse-style-guide/index.md)
-2. Preserve source markup formats (`AsciiDoc`, `DocBook XML`) without introducing syntax or validation errors.
-
-## Task-Specific Prompts & Instructions
-When performing specific editorial tasks, apply the procedures defined in the [`agent skills`](.agents/skills/) directory:
-- **Style Review**: Follow the review and feedback structure in [`review-style/SKILL.md`](.agents/skills/review-style/SKILL.md).
-- Any additional task prompts added to [`agent skills`](.agents/skills/) should be consulted based on the user's requested action.
-
-## Applying Changes
-- Do not stop at listing suggestions in the chat. When reviewing or editing documents, directly apply the suggested fixes to the active document or file so they appear as diffs in the editor view for the user to review, accept, or reject.
+- Adhere strictly to the corporate style guide:
+  - If accessible, consult the style guide index in [.agents/suse-style-guide/index.md](.agents/suse-style-guide/index.md).
+  - If submodule symlinks are not accessible (for example, in GitHub Copilot or web PR reviews), use the individual instruction files in `.github/instructions/*.instructions.md`.
+- Preserve source markup format without introducing syntax or validation errors.

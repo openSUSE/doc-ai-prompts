@@ -12,6 +12,9 @@ The `.agents/suse-style-guide/Style-Guide-onefile.md` file contains a minimal ve
 Files in the `.agents/suse-style-guide/` directory contain a simplified version of the SUSE Style Guide divided into multiple topics presented as AI prompts.
 They are prefixed with a number that suggests the recommended order of processing.
 
+# Agent Instructions
+General agent guidelines and repository rules are provided in `install/AGENTS.md`. When installed in a documentation repository, it acts as the top-level dispatcher referencing specialized agent roles in `.agents/agent/` (`doc-writer.md` and `doc-reviewer.md`), with `GEMINI.md` and `.github/copilot-instructions.md` symlinked to it.
+
 # Usage
 
 ## Manual Usage
@@ -33,19 +36,20 @@ After following the installation steps in [INSTALL.md](INSTALL.md):
    In the file pane, you can either **Accept** or **Reject** individual suggested changes or all of them at once.
 
 ### Creating content
-Add the following sentence to the end of the prompt you ask Gemini to execute:
+Add the following sentence to the end of the prompt you ask your AI assistant to execute:
 
-`Make sure to follow the rules in @GEMINI.md.`
+`Make sure to follow the rules in @AGENTS.md.` (or `@GEMINI.md` for Gemini Code Assist)
 
 
 ## GitHub Copilot
 You can influence GitHub Copilot to make PR reviews and coding suggestions based on the Style Guide prompts:
-* **Repository-wide rules:** Reside in `.github/copilot-instructions.md` (a condensed version of the style guide).
+* **Repository-wide rules:** Reside in `.github/copilot-instructions.md` (symlinked to `AGENTS.md`).
 * **Modular topic instructions:** Reside in `.github/instructions/*.instructions.md` (individual numbered style guide topic instructions).
 
 To synchronize or update Copilot instructions after pulling submodule changes, run:
 ```bash
-./submodules/doc-ai-prompts/install.sh -u
+cd <SUBMODULE_PATH>
+./install.sh -u
 ```
 Alternatively, invoke the `/update-copilot-instructions` (or `@update-copilot-instructions`) skill directly in your AI assistant chat.
 

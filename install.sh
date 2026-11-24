@@ -75,36 +75,7 @@ ask_yes_no() {
     done
 }
 
-smart_copy() {
-    local src="$1"
-    local dest="$2"
-    local label="$3"
-
-    mkdir -p "$(dirname "$dest")"
-
-    if [[ -f "$dest" ]] && cmp -s "$src" "$dest"; then
-        echo "  Up to date: $label"
-        return 0
-    fi
-
-    if [[ -f "$dest" ]]; then
-        if ask_yes_no "File '$label' has changed. Update?"; then
-            cp "$src" "$dest"
-            echo "  Updated (real file): $label"
-        else
-            echo "  Skipped: $label"
-        fi
-    else
-        if ask_yes_no "Create file '$label' in target?"; then
-            cp "$src" "$dest"
-            echo "  Installed (real file): $label"
-        else
-            echo "  Skipped: $label"
-        fi
-    fi
-}
-
-# 1. Determine target documentation repository root
+# Determine target documentation repository root
 if [[ -z "$TARGET_DIR" ]]; then
     # Auto-detect target repository root
     DETECTED_TARGET=""
@@ -169,16 +140,67 @@ echo
 sync_copilot_instructions() {
     local guide_src="$SCRIPT_DIR/.agents/suse-style-guide"
     local copilot_dest="$TARGET_DIR/.github/instructions"
+    local copilot_main="$TARGET_DIR/.github/copilot-instructions.md"
 
     echo "Synchronizing GitHub Copilot instructions..."
 
-    # Sync modular numbered instruction files (e.g. 00-*, 01-*, etc.)
-    if [[ -d "$guide_src" ]]; then
+    if [[ ! -d "$guide_src" ]]; then
+        echo "  Notice: Style guide directory not found: $guide_src"
+        return 0
+    fi
+
+    # Check if any files need creating or updating
+    local needs_sync=false
+    if [[ ! -L "$copilot_main" || "$(readlink "$copilot_main")" != "../AGENTS.md" ]]; then
+        needs_sync=true
+    fi
+
+    if [[ "$needs_sync" == false ]]; then
         for f in "$guide_src"/[0-9][0-9]-*.md; do
             [[ -f "$f" ]] || continue
             local base="$(basename "$f" .md)"
-            smart_copy "$f" "$copilot_dest/${base}.instructions.md" ".github/instructions/${base}.instructions.md"
+            local dest="$copilot_dest/${base}.instructions.md"
+            if [[ ! -f "$dest" ]] || ! cmp -s "$f" "$dest"; then
+                needs_sync=true
+                break
+            fi
         done
+    fi
+
+    if [[ "$needs_sync" == false ]]; then
+        echo "  Up to date: GitHub Copilot instructions (.github/)"
+        return 0
+    fi
+
+    if ask_yes_no "Synchronize GitHub Copilot instructions in '.github/'?"; then
+        mkdir -p "$TARGET_DIR/.github"
+        if [[ -L "$copilot_main" && "$(readlink "$copilot_main")" == "../AGENTS.md" ]]; then
+            echo "  Up to date: .github/copilot-instructions.md"
+        else
+            rm -f "$copilot_main"
+            ln -s "../AGENTS.md" "$copilot_main"
+            echo "  Installed (symlink): .github/copilot-instructions.md -> ../AGENTS.md"
+        fi
+
+        mkdir -p "$copilot_dest"
+        for f in "$guide_src"/[0-9][0-9]-*.md; do
+            [[ -f "$f" ]] || continue
+            local base="$(basename "$f" .md)"
+            local dest="$copilot_dest/${base}.instructions.md"
+            local label=".github/instructions/${base}.instructions.md"
+
+            if [[ -f "$dest" ]] && cmp -s "$f" "$dest"; then
+                echo "  Up to date: $label"
+            elif [[ -f "$dest" ]]; then
+                cp "$f" "$dest"
+                echo "  Updated: $label"
+            else
+                cp "$f" "$dest"
+                echo "  Installed: $label"
+            fi
+        done
+    else
+        echo "  Skipped: GitHub Copilot instructions"
     fi
 }
 
@@ -190,7 +212,7 @@ if [[ "$COPILOT_ONLY" == true ]]; then
     exit 0
 fi
 
-# 2. Process directories first
+# Process directories first
 while IFS= read -r rel_dir; do
     rel_dir="${rel_dir#./}"
     [[ -z "$rel_dir" || "$rel_dir" == "." ]] && continue
@@ -205,7 +227,7 @@ while IFS= read -r rel_dir; do
     fi
 done < <(cd "$INSTALL_SRC" && find . -mindepth 1 -type d)
 
-# 3. Process files and symlinks
+# Process files and symlinks
 while IFS= read -r rel_file; do
     rel_file="${rel_file#./}"
     [[ -z "$rel_file" ]] && continue
@@ -265,9 +287,9 @@ while IFS= read -r rel_file; do
         cp "$src_path" "$dest_path"
         echo "  Installed: $rel_file"
     fi
-done < <(cd "$INSTALL_SRC" && { find . -mindepth 1 -type f | sort; find . -mindepth 1 -type l | sort; })
+done < <(cd "$INSTALL_SRC" && { find . -mindepth 1 -type f | sort; find . -mindepth 1 -type l ! -name "GEMINI.md" | sort; })
 
-# 4. Symlink .agents/ into the documentation repository root
+# Symlink .agents/ into the documentation repository root
 agents_src="$SCRIPT_DIR/.agents"
 agents_dest="$TARGET_DIR/.agents"
 
@@ -305,7 +327,31 @@ if [[ "$TARGET_DIR" != "$SCRIPT_DIR" && -d "$agents_src" ]]; then
     fi
 fi
 
-# 5. Synchronize Copilot instructions
+# Symlink GEMINI.md into the documentation repository root
+gemini_dest="$TARGET_DIR/GEMINI.md"
+
+if [[ -L "$gemini_dest" && "$(readlink "$gemini_dest")" == "AGENTS.md" ]]; then
+    echo "  Up to date: GEMINI.md"
+else
+    if [[ -e "$gemini_dest" || -L "$gemini_dest" ]]; then
+        if ask_yes_no "File 'GEMINI.md' already exists in target. Overwrite with symlink to 'AGENTS.md'?"; then
+            rm -f "$gemini_dest"
+            ln -s "AGENTS.md" "$gemini_dest"
+            echo "  Installed (symlink): GEMINI.md -> AGENTS.md"
+        else
+            echo "  Skipped: GEMINI.md"
+        fi
+    else
+        if ask_yes_no "Create symlink 'GEMINI.md' -> 'AGENTS.md' in target?"; then
+            ln -s "AGENTS.md" "$gemini_dest"
+            echo "  Installed (symlink): GEMINI.md -> AGENTS.md"
+        else
+            echo "  Skipped: GEMINI.md"
+        fi
+    fi
+fi
+
+# Synchronize Copilot instructions
 sync_copilot_instructions
 
 echo
