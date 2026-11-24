@@ -46,6 +46,7 @@ The script checks for changes before modifying any files. It deploys the followi
 * **`AGENTS.md`**: Symlink pointing to the selected `AGENTS.*.md` file appropriate for your repository.
 * **`GEMINI.md`**: Symlink pointing to `AGENTS.md` for Gemini Code Assist.
 * **`.agents`**: Symlink pointing to the submodule's `.agents` directory.
+* **`.github/copilot-instructions.md`**: Symlink pointing to `../AGENTS.md` for repository-wide GitHub Copilot instructions.
 * **`.github/instructions/*.instructions.md`**: Modular GitHub Copilot instruction files corresponding to each numbered topic in `.agents/suse-style-guide/`.
 
 ## 4. Updating Instructions

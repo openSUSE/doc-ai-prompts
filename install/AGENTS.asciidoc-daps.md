@@ -25,7 +25,9 @@ They are based on templates located in the `templates/` subdirectory.
 
 ## General Documentation Rules
 When writing, reviewing, or generating documentation in this repository:
-- Adhere strictly to the corporate style guide index: [SUSE Style Guide Index](.agents/suse-style-guide/index.md)
+- Adhere strictly to the corporate style guide:
+  - If accessible, consult the style guide index in [.agents/suse-style-guide/index.md](.agents/suse-style-guide/index.md).
+  - If submodule symlinks are not accessible (for example, in GitHub Copilot or web PR reviews), use the individual instruction files in `.github/instructions/*.instructions.md`.
 - Preserve source markup format without introducing syntax or validation errors.
 
 ## Task-Specific Prompts & Instructions

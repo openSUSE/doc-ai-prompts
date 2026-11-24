@@ -140,6 +140,7 @@ echo
 sync_copilot_instructions() {
     local guide_src="$SCRIPT_DIR/.agents/suse-style-guide"
     local copilot_dest="$TARGET_DIR/.github/instructions"
+    local copilot_main="$TARGET_DIR/.github/copilot-instructions.md"
 
     echo "Synchronizing GitHub Copilot instructions..."
 
@@ -150,22 +151,37 @@ sync_copilot_instructions() {
 
     # Check if any files need creating or updating
     local needs_sync=false
-    for f in "$guide_src"/[0-9][0-9]-*.md; do
-        [[ -f "$f" ]] || continue
-        local base="$(basename "$f" .md)"
-        local dest="$copilot_dest/${base}.instructions.md"
-        if [[ ! -f "$dest" ]] || ! cmp -s "$f" "$dest"; then
-            needs_sync=true
-            break
-        fi
-    done
+    if [[ ! -L "$copilot_main" || "$(readlink "$copilot_main")" != "../AGENTS.md" ]]; then
+        needs_sync=true
+    fi
 
     if [[ "$needs_sync" == false ]]; then
-        echo "  Up to date: GitHub Copilot instructions (.github/instructions/)"
+        for f in "$guide_src"/[0-9][0-9]-*.md; do
+            [[ -f "$f" ]] || continue
+            local base="$(basename "$f" .md)"
+            local dest="$copilot_dest/${base}.instructions.md"
+            if [[ ! -f "$dest" ]] || ! cmp -s "$f" "$dest"; then
+                needs_sync=true
+                break
+            fi
+        done
+    fi
+
+    if [[ "$needs_sync" == false ]]; then
+        echo "  Up to date: GitHub Copilot instructions (.github/)"
         return 0
     fi
 
-    if ask_yes_no "Synchronize GitHub Copilot instructions in '.github/instructions/'?"; then
+    if ask_yes_no "Synchronize GitHub Copilot instructions in '.github/'?"; then
+        mkdir -p "$TARGET_DIR/.github"
+        if [[ -L "$copilot_main" && "$(readlink "$copilot_main")" == "../AGENTS.md" ]]; then
+            echo "  Up to date: .github/copilot-instructions.md"
+        else
+            rm -f "$copilot_main"
+            ln -s "../AGENTS.md" "$copilot_main"
+            echo "  Installed (symlink): .github/copilot-instructions.md -> ../AGENTS.md"
+        fi
+
         mkdir -p "$copilot_dest"
         for f in "$guide_src"/[0-9][0-9]-*.md; do
             [[ -f "$f" ]] || continue

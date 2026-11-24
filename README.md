@@ -44,7 +44,9 @@ Add the following sentence to the end of the prompt you ask your AI assistant to
 
 
 ## GitHub Copilot
-You can influence GitHub Copilot to make PR reviews and coding suggestions based on the Style Guide prompts that reside in `.github/instructions/*.instructions.md` (individual numbered style guide topic instructions).
+You can influence GitHub Copilot to make PR reviews and coding suggestions based on the Style Guide prompts:
+* **Repository-wide rules:** Reside in `.github/copilot-instructions.md` (symlinked to `AGENTS.md`).
+* **Modular topic instructions:** Reside in `.github/instructions/*.instructions.md` (individual numbered style guide topic instructions).
 
 To synchronize or update Copilot instructions after pulling submodule changes, run:
 ```bash
