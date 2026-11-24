@@ -289,61 +289,6 @@ while IFS= read -r rel_file; do
     fi
 done < <(cd "$INSTALL_SRC" && { find . -mindepth 1 -type f | sort; find . -mindepth 1 -type l ! -name "GEMINI.md" | sort; })
 
-# Configure AGENTS.md symlink
-agents_symlink="$TARGET_DIR/AGENTS.md"
-
-if [[ -L "$agents_symlink" ]]; then
-    echo "  Up to date (symlink): AGENTS.md -> $(readlink "$agents_symlink")"
-else
-    # Find available AGENTS*md files in TARGET_DIR (excluding AGENTS.md itself)
-    available_agents=()
-    while IFS= read -r f; do
-        [[ -n "$f" ]] && available_agents+=("$(basename "$f")")
-    done < <(find "$TARGET_DIR" -maxdepth 1 -name "AGENTS*md" ! -name "AGENTS.md" -type f | sort)
-
-    if [[ ${#available_agents[@]} -eq 0 ]]; then
-        echo "  Warning: No AGENTS*md instruction files found in target." >&2
-    else
-        chosen=""
-        if [[ ${#available_agents[@]} -eq 1 ]]; then
-            chosen="${available_agents[0]}"
-        elif [[ "$NON_INTERACTIVE" == true ]]; then
-            chosen="${available_agents[0]}"
-            echo "  Non-interactive mode: selecting default AGENTS file ($chosen)"
-        else
-            echo
-            echo "Select an AGENTS instructions file for this repository:"
-            for i in "${!available_agents[@]}"; do
-                echo "  $((i + 1))) ${available_agents[$i]}"
-            done
-            while true; do
-                read -r -u 3 -p "Enter choice [1-${#available_agents[@]}, default: 1]: " choice || true
-                choice="${choice:-1}"
-                if [[ "$choice" =~ ^[0-9]+$ ]] && (( choice >= 1 && choice <= ${#available_agents[@]} )); then
-                    chosen="${available_agents[$((choice - 1))]}"
-                    break
-                else
-                    echo "Please enter a number between 1 and ${#available_agents[@]}."
-                fi
-            done
-        fi
-
-        if [[ -e "$agents_symlink" && ! -L "$agents_symlink" ]]; then
-            if ask_yes_no "File 'AGENTS.md' exists in target as a regular file. Replace with symlink to '$chosen'?"; then
-                rm -f "$agents_symlink"
-                ln -s "$chosen" "$agents_symlink"
-                echo "  Installed (symlink): AGENTS.md -> $chosen"
-            else
-                echo "  Skipped: AGENTS.md"
-            fi
-        else
-            rm -f "$agents_symlink"
-            ln -s "$chosen" "$agents_symlink"
-            echo "  Installed (symlink): AGENTS.md -> $chosen"
-        fi
-    fi
-fi
-
 # Symlink .agents/ into the documentation repository root
 agents_src="$SCRIPT_DIR/.agents"
 agents_dest="$TARGET_DIR/.agents"

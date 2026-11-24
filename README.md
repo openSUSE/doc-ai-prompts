@@ -13,9 +13,7 @@ Files in the `.agents/suse-style-guide/` directory contain a simplified version 
 They are prefixed with a number that suggests the recommended order of processing.
 
 # Agent Instructions
-General agent guidelines and repository rules are provided in the `install/` directory as tailored instruction files (for example, `AGENTS.asciidoc-daps.md` for modular AsciiDoc documentation built with DAPS).
-
-When installed in a documentation repository, the chosen file is symlinked as `AGENTS.md` (with `GEMINI.md` symlinked to `AGENTS.md`).
+General agent guidelines and repository rules are provided in `install/AGENTS.md`. When installed in a documentation repository, it acts as the top-level dispatcher referencing specialized agent roles in `.agents/agent/` (`doc-writer.md` and `doc-reviewer.md`), with `GEMINI.md` and `.github/copilot-instructions.md` symlinked to it.
 
 # Usage
 

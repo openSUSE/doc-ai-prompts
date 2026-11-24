@@ -24,8 +24,6 @@ cd <SUBMODULE_PATH>
 ./install.sh
 ```
 
-During installation, the script copies all available `AGENTS.*.md` files to the target repository and prompts you to select which one should be symlinked as `AGENTS.md` (if the symlink does not already exist).
-
 ### Script Options
 
 * **`-u, --update-copilot-instructions`**: Synchronize only the GitHub Copilot instruction files (`.github/instructions/*.instructions.md`) without re-running the full interactive setup.
@@ -42,10 +40,9 @@ You can also pass the path to the target documentation repository explicitly:
 
 The script checks for changes before modifying any files. It deploys the following to your documentation repository:
 
-* **`AGENTS.*.md`** (such as `AGENTS.asciidoc-daps.md`): Core agent instructions and guidelines tailored to specific documentation setups (referencing the style guide, topic structure, validation commands and skills).
-* **`AGENTS.md`**: Symlink pointing to the selected `AGENTS.*.md` file appropriate for your repository.
+* **`AGENTS.md`**: Core agent instructions and guidelines for modular, topic-based documentation (referencing agent roles for writing and reviewing, style guide rules, and validation commands).
 * **`GEMINI.md`**: Symlink pointing to `AGENTS.md` for Gemini Code Assist.
-* **`.agents`**: Symlink pointing to the submodule's `.agents` directory.
+* **`.agents`**: Symlink pointing to the submodule's `.agents` directory (containing specialized roles in `.agents/agent/` and editorial skills in `.agents/skills/`).
 * **`.github/copilot-instructions.md`**: Symlink pointing to `../AGENTS.md` for repository-wide GitHub Copilot instructions.
 * **`.github/instructions/*.instructions.md`**: Modular GitHub Copilot instruction files corresponding to each numbered topic in `.agents/suse-style-guide/`.
 
