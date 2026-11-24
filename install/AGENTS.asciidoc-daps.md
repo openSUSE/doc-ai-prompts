@@ -31,9 +31,9 @@ When writing, reviewing, or generating documentation in this repository:
 - Preserve source markup format without introducing syntax or validation errors.
 
 ## Task-Specific Prompts & Instructions
-When performing specific editorial tasks, apply the procedures defined in the [`agent skills`](.agents/skills/) directory:
-- **Style Review**: Follow the review and feedback structure in [`review-style/SKILL.md`](.agents/skills/review-style/SKILL.md).
-- Any additional task prompts added to [`agent skills`](.agents/skills/) should be consulted based on the user's requested action.
+When performing specific editorial tasks, apply the procedures defined as skills.
+
+- **Style Review**: Follow the review and feedback structure in the `review-style` skill.
 
 ## Applying Changes
 - Do not stop at listing suggestions in the chat.
